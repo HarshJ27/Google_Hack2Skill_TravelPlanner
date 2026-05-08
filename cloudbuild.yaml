@@ -1,0 +1,20 @@
+steps:
+  # Build the container image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [
+      'build', 
+      '--build-arg', 'NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=${_MAPS_KEY}',
+      '-t', 'us-central1-docker.pkg.dev/${PROJECT_ID}/${_REPOSITORY}/travel-app', 
+      '.'
+    ]
+
+  # Push the container image to Artifact Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'us-central1-docker.pkg.dev/${PROJECT_ID}/${_REPOSITORY}/travel-app']
+
+images:
+  - 'us-central1-docker.pkg.dev/${PROJECT_ID}/${_REPOSITORY}/travel-app'
+
+substitutions:
+  _MAPS_KEY: ''
+  _REPOSITORY: 'Google_Hack2Skill_TravelPlanner'
